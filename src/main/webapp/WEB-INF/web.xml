@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="cloud-source" version="3.0">
+	<display-name>springmvc-mybatis-v1.0-project</display-name>
+
+	<!-- resource cache filter -->
+	<filter>
+		<filter-name>ResourceCacheFilter</filter-name>
+		<filter-class>com.foreveross.gittc.web.filter.ResourceCacheFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ResourceCacheFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- resource cache filter end -->
+
+	<!-- fileServer download -->
+	<servlet>
+		<servlet-name>download</servlet-name>
+		<servlet-class>com.foreveross.gittc.web.servlet.proxy.ProxyServlet</servlet-class>
+		<init-param>
+			<param-name>targetUri</param-name>
+			<param-value>http://183.233.189.114/service/file/download</param-value>
+		</init-param>
+		<init-param>
+			<param-name>log</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cached</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>paramName</param-name>
+			<param-value>proxy.download.url</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>download</servlet-name>
+		<url-pattern>/servlet/download</url-pattern>
+	</servlet-mapping>
+	<!-- fileServer download end -->
+	<!-- IM Server -->
+	<servlet>
+		<servlet-name>IMServer</servlet-name>
+		<servlet-class>com.foreveross.gittc.web.servlet.proxy.ProxyServlet</servlet-class>
+		<init-param>
+			<param-name>targetUri</param-name>
+			<param-value>http://localhost:8888/im</param-value>
+		</init-param>
+		<init-param>
+			<param-name>log</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>header</param-name>
+			<param-value>server-context={CPATH}/servlet</param-value>
+		</init-param>
+		<init-param>
+			<param-name>paramName</param-name>
+			<param-value>proxy.im.url</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>IMServer</servlet-name>
+		<url-pattern>/servlet/im/*</url-pattern>
+	</servlet-mapping>
+	<!-- IM Server end -->
+
+	<!-- jfinal -->
+	<filter>
+		<filter-name>jfinal</filter-name>
+		<filter-class>com.jfinal.core.JFinalFilter</filter-class>
+		<init-param>
+			<param-name>configClass</param-name>
+			<param-value>com.foreveross.gittc.config.AppConfig</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>jfinal</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<distributable />
+</web-app>
